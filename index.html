@@ -1,0 +1,121 @@
+<html>
+  <head>
+    <title>AngularJS Authentication</title>
+
+    <!-- Viewport settings-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <!-- Basic style -->
+    <link href="bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link rel='stylesheet' href='bower_components/angular-loading-bar/build/loading-bar.min.css' type='text/css' media='all' />
+    <link rel="stylesheet" href="bower_components/ng-dialog/css/ngDialog.min.css">
+    <link rel="stylesheet" href="bower_components/ng-dialog/css/ngDialog-theme-default.min.css">
+
+      <style>
+      ul li {
+        list-style-type: none;
+        list-style-position: inside;
+      }
+      .navbar{
+        margin-bottom: 0;
+        border-radius: 0;
+      }
+      .page_items {
+        width: 100px;
+      }
+      .crypto_icon {
+        width: 25px;
+        height: auto;
+      }
+      .get_crypto_btn {
+        cursor: pointer;
+        font-weight: bold;
+        color: #b00;
+      }
+      .crypto_item {
+        cursor: pointer;
+        float:left;
+        width: 100px;
+        height: 100px;
+        line-height: 100px;
+        text-align: center;
+        overflow: hidden;
+        border: 1px solid #ddd;
+        margin: 10px;
+        background-color: #f7f7f7;
+      }
+      .crypto_detail {
+        background-color: #eee;
+        padding: 10px;
+      }
+      .crypto_item a {
+        text-decoration: none;
+      }
+      .crypto_item:hover
+      {
+          -webkit-transform: scale(1.1);
+          -ms-transform: scale(1.1);
+          transform: scale(1.1);
+          background-color: #e7e7e7;
+      }
+      .clear {
+
+        clear: both;
+      }
+      /*
+      #loading-bar-container {
+        height: 40px;
+        position: fixed;
+        top:0;
+        left: 0;
+        right: 0;
+        z-index: 9;
+      }
+      */
+    </style>
+  </head>
+  <body>
+    <div ng-app="app">
+
+      <div id="loading-bar-container"></div>
+
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand" ui-sref="home">Auth0</a>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li ng-if="!auth.isAuthenticated()"><a ng-click="auth.login()">Log In</a></li>
+              <li ng-if="auth.isAuthenticated()"><a ng-click="auth.logout()">Log Out</a></li>
+              <li><a href="#crypto">Cryptos</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <div ui-view></div>
+    </div>
+
+    <script type="text/javascript" src="auth0-variables.js"></script>
+    <script type="text/javascript" src="bower_components/angular/angular.js"></script>
+    <script type="text/javascript" src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script type="text/javascript" src="bower_components/auth0.js/build/auth0.js"></script>
+    <script type="text/javascript" src="bower_components/angular-auth0/dist/angular-auth0.js"></script>
+    <script type="text/javascript" src="bower_components/angular-jwt/dist/angular-jwt.js"></script>
+    <script type='text/javascript' src='bower_components/angular-loading-bar/build/loading-bar.min.js'></script>
+    <script type='text/javascript' src="bower_components/angularUtils-pagination/dirPagination.js"></script>
+    <script type="text/javascript" src="bower_components/angular-preload-image/angular-preload-image.min.js"></script>
+    <script type="text/javascript" src="bower_components/ng-dialog/js/ngDialog.min.js"></script>
+    <script type="text/javascript" src="bower_components/angular-smart-table/dist/smart-table.min.js"></script>
+    <script type="text/javascript" src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+    <script type="text/javascript" src="bower_components/ng-csv/build/ng-csv.min.js"></script>
+
+    <script type="text/javascript" src="app.js"></script>
+    <script type="text/javascript" src="app.run.js"></script>
+    <script type="text/javascript" src="components/home/home.controller.js"></script>
+    <script type="text/javascript" src="components/auth/auth.service.js"></script>
+    <script type="text/javascript" src="components/crypto/crypto.controller.js"></script>
+
+  </body>
+</html>

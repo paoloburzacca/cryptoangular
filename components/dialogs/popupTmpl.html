@@ -1,0 +1,49 @@
+<div class='crypto_detail'>
+
+
+
+  <table class="table table-striped">
+
+    <caption>
+      <a target="_blank" title="Visit {{crypto_detail.name}} website" href="http://{{crypto_detail.website_slug}}.com">
+        {{crypto_detail.name}}
+      </a>
+    </caption>
+
+    <tr>
+      <th>Rank</th>
+      <td>{{crypto_detail.rank}}</td>
+    </tr>
+
+    <tr ng-if="crypto_detail.max_supply">
+      <th>Max Supply</th>
+      <td>{{crypto_detail.max_supply}}</td>
+    </tr>
+
+    <tr>
+      <td>Circulating Supply</td>
+      <td>{{crypto_detail.circulating_supply}}</td>
+    </tr>
+
+    <tr>
+      <td>Total Supply</td>
+      <td>{{crypto_detail.total_supply}}</td>
+    </tr>
+
+    <tr>
+      <td>Symbol</td>
+      <td>{{crypto_detail.symbol}}</td>
+    </tr>
+
+    <tr>
+      <td>USD Value</td>
+      <td>{{crypto_detail.quotes.USD.price}} $</td>
+    </tr>
+
+    <tr>
+      <td>EUR Value</td>
+      <td>{{crypto_detail.quotes.EUR.price}} €</td>
+    </tr>
+
+  </table>
+</div>
