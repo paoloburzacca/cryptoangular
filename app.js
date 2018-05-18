@@ -3,15 +3,18 @@
   'use strict';
 
   angular
-    .module('app', ['smart-table', 'ngCsv', 'ngSanitize', 'ngDialog', 'auth0.auth0', 'angular-jwt', 'ui.router', 'angular-loading-bar', 'angularUtils.directives.dirPagination', 'angular-preload-image'])
+    .module('app', ['highcharts-ng',  'LocalStorageModule', 'smart-table', 'ngCsv', 'ngSanitize', 'ngDialog', 'auth0.auth0', 'angular-jwt', 'ui.router', 'angular-loading-bar', 'angularUtils.directives.dirPagination', 'angular-preload-image'])
     .config(config);
 
-  config.$inject = ['$stateProvider', '$locationProvider', 'angularAuth0Provider', '$urlRouterProvider', 'jwtOptionsProvider', 'cfpLoadingBarProvider'];
+  config.$inject = ['$stateProvider', '$locationProvider', 'angularAuth0Provider', '$urlRouterProvider', 'jwtOptionsProvider', 'cfpLoadingBarProvider', 'localStorageServiceProvider'];
 
-  function config($stateProvider, $locationProvider, angularAuth0Provider, $urlRouterProvider, jwtOptionsProvider, cfpLoadingBarProvider) {
+  function config($stateProvider, $locationProvider, angularAuth0Provider, $urlRouterProvider, jwtOptionsProvider, cfpLoadingBarProvider, localStorageServiceProvider) {
 
     //cfpLoadingBarProvider.parentSelector = '#loading-bar-container';
     //cfpLoadingBarProvider.spinnerTemplate = '<div><span class="fa fa-spinner">Custom Loading Message...</div>';
+
+    localStorageServiceProvider.setPrefix('crypto_app');
+    localStorageServiceProvider.setStorageType('sessionStorage');
 
     $stateProvider
       .state('home', {

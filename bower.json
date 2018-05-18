@@ -21,7 +21,10 @@
     "angular-jwt": "^0.1.9",
     "angular-ui-router": "~0.3.1",
     "bootstrap": "~3.3.7",
-    "auth0.js": "^8.4.0"
+    "auth0.js": "^8.4.0",
+    "angular-local-storage": "^0.7.1",
+    "highcharts-ng": "^1.2.1",
+    "highcharts": "^6.1.0"
   },
   "resolutions": {
     "angular": "1.7.0"

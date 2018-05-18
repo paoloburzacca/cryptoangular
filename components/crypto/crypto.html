@@ -1,39 +1,31 @@
 <div class="jumbotron">
-  <div class="text-center">
+  <div class="text-center" ng-controller="CryptoController" data-ng-init="getCryptoCurrencyList()">
 
-    <a class="get_crypto_btn" ng-click="vm.getCryptoCurrencyList()">Get Crypto Currency List</a>
+    <div ng-controller="ChartController" class="chart-controller" ng-if="crypto_list">
 
-    <h3 ng-if="vm.crypto_list">Page: {{ vm.currentPage }}</h3>
+      <highcharts-column class="chart" categories="{{myCategories}}" series="{{mySeries}}"></highcharts-column>
 
-    <label ng-if="vm.crypto_list" for="pageSize">items per page:</label>
-    <input ng-if="vm.crypto_list" type="number" min="1" max="100" class="form-control page_items" id="pageSize" ng-model="vm.pageSize">
+      <ul>
 
-    <ul>
-
-      <!--
-        <li class='crypto_item' ng-repeat="crypto in vm.crypto_list">
-          <img class="crypto_icon" src="https://raw.githubusercontent.com/cjdowner/cryptocurrency-icons/master/128/color/{{crypto.symbol | lowercase}}.png" alt="{{crypto.symbol}}">
-          <a target="_blank" title="Visit {{crypto.name}} website" href="http://{{crypto.website_slug}}.com">{{crypto.name}}</a>
+        <li ng-click='getCryptoCurrencyDetail(crypto.id)' class='crypto_item' dir-paginate="crypto in crypto_list | itemsPerPage: pageSize" current-page="currentPage">
+            <img class="crypto_icon" preload-image ng-src="https://raw.githubusercontent.com/cjdowner/cryptocurrency-icons/master/128/color/{{crypto.symbol | lowercase}}.png" default-image="https://d30y9cdsu7xlg0.cloudfront.net/png/1094659-200.png" fallback-image="https://d30y9cdsu7xlg0.cloudfront.net/png/106184-200.png" alt="{{crypto.symbol}}" />
+            <!--<a target="_blank" title="Visit {{crypto.name}} website" href="http://{{crypto.website_slug}}.com"></a>-->
+            {{crypto.name}}
         </li>
-      -->
 
-      <li ng-click='vm.getCryptoCurrencyDetail(crypto.id)' class='crypto_item' dir-paginate="crypto in vm.crypto_list | itemsPerPage: vm.pageSize" current-page="vm.currentPage">
-          <img class="crypto_icon" preload-image ng-src="https://raw.githubusercontent.com/cjdowner/cryptocurrency-icons/master/128/color/{{crypto.symbol | lowercase}}.png" default-image="https://d30y9cdsu7xlg0.cloudfront.net/png/1094659-200.png" fallback-image="https://d30y9cdsu7xlg0.cloudfront.net/png/106184-200.png" alt="{{crypto.symbol}}" />
-          <!--<a target="_blank" title="Visit {{crypto.name}} website" href="http://{{crypto.website_slug}}.com"></a>-->
-          {{crypto.name}}
-      </li>
+        <li class="clear"></li>
+      </ul>
 
-      <li class="clear"></li>
-    </ul>
+      <div ng-controller="OtherController" class="other-controller" data-ng-init="init()">
 
-    <div ng-controller="OtherController" class="other-controller">
-       <small>This is in "OtherController"</small>
-       <div class="text-center">
-         <dir-pagination-controls boundary-links="true" on-page-change="vm.pageChangeHandler(newPageNumber)" template-url="bower_components/angularUtils-pagination/dirPagination.tpl.html"></dir-pagination-controls>
+         <div class="text-center">
+           <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="bower_components/angularUtils-pagination/dirPagination.tpl.html"></dir-pagination-controls>
+         </div>
        </div>
-     </div>
 
-     <button ng-if="vm.crypto_list" type="button" ng-csv="vm.crypto_list" filename="crypto_currencies.csv">Export as CSV</button>
+  </div>
+
+     <button ng-if="crypto_list" type="button" class="btn btn-primary" ng-csv="crypto_list" filename="crypto_currencies.csv">Export as CSV</button>
 
   </div>
 </div>
