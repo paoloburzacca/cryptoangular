@@ -75,6 +75,13 @@
 
   function myChartController($scope) {
 
+    $scope.isActive = false;
+
+    $scope.$on('disableChart', function(event, data) {
+      console.log('disableChart');
+      $scope.isActive = false;
+    });
+
     $scope.$on('childEmit', function(event, data) {
        console.log('New page');
        updateChart(data);
@@ -109,18 +116,24 @@
 
       for (var i = 0; i < $scope.pageSize; i++) {
 
-        var thisRank = data.ranks[i];
-        var nome = data.names[i];
-        $scope.myCategories.push(nome);
-        if (typeof thisRank == "undefined") thisRank = 0;
+        if (typeof data.ranks != "undefined") {
 
-        //var crypto_coin = $scope.crypto_list[i];
-        var newColor = getNewRandomColor();
-        $scope.mySeries[0].data.push(thisRank);
-        //$scope.mySeries[0].colors.push(newColor);
+            var thisRank = data.ranks[i];
+            var nome = data.names[i];
+            $scope.myCategories.push(nome);
+            if (typeof thisRank == "undefined") thisRank = 0;
 
-        console.log("thisRank "+i+" = " + thisRank);
+            //var crypto_coin = $scope.crypto_list[i];
+            var newColor = getNewRandomColor();
+            $scope.mySeries[0].data.push(thisRank);
+            //$scope.mySeries[0].colors.push(newColor);
+
+            //console.log("thisRank "+i+" = " + thisRank);
+        }
+
       }
+
+      $scope.isActive = true;
 
     };
 
@@ -178,67 +191,84 @@
 
   function OtherController($scope, $http) {
 
-    var vm = this;
+    $scope.init = function() {
+      loadNewPage(1);
+    };
+
+    $scope.pageChangeHandler = function(num) {
+      $scope.$emit('disableChart');
+      loadNewPage(num);
+    };
 
     function loadNewPage(num) {
-      console.log('[OtherController] going to page ' + num);
 
       var cryptoIDS = [];
+      var counter = 0;
+      var ranks = [];
+      var names = [];
+      var currentPage = 0;
 
+      currentPage = num;
       var start = (num - 1) * $scope.pageSize;
       var max = start + $scope.pageSize;
-      console.log('da ' + start + ' a ' + max);
 
       for (var i = start; i < max; i++) {
         var crypto_coin = $scope.crypto_list[i];
-        cryptoIDS.push(crypto_coin.id);
+        if (typeof crypto_coin != "undefined") cryptoIDS.push(crypto_coin.id);
       }
 
-      var counter = 0;
       getNextCryptoRank(cryptoIDS[counter]);
-
-      var ranks = [];
-      var names = [];
 
       function getNextCryptoRank(crypto_id) {
 
-        $http.get('https://api.coinmarketcap.com/v2/ticker/' + crypto_id + '/?convert=EUR').then(function(response) {
-          var crypto_detail = response.data.data;
+        console.log("getNextCryptoRank: " + crypto_id);
 
-          console.log(crypto_detail);
+          $http.get('https://api.coinmarketcap.com/v2/ticker/' + crypto_id + '/?convert=EUR').then(function(response) {
+            var crypto_detail = response.data.data;
 
-          if (crypto_detail != null)  {
-             ranks.push(crypto_detail.rank)
-             names.push(crypto_detail.name)
-          }
+            console.log("crypto_detail");
+            console.log(crypto_detail);
+
+            if (typeof crypto_detail != "undefined") {
+                ranks.push(crypto_detail.rank)
+                names.push(crypto_detail.name)
+            }
+
+            if (counter < $scope.pageSize - 1) {
+
+              getNextCryptoRank(cryptoIDS[++counter]);
+
+            } else {
+              var obj = {page: currentPage, ranks:ranks, names: names};
+
+              console.log("obj");
+              console.log(obj);
+
+              $scope.$emit('childEmit', obj);
+            }
+
+        },
+        function(data) {
 
           if (counter < $scope.pageSize - 1) {
 
-            console.log("Continuo");
-
             getNextCryptoRank(cryptoIDS[++counter]);
+
           } else {
+            var obj = {page: currentPage, ranks:ranks, names: names};
 
-            console.log("ranks");
-            console.log(ranks);
-
-            var obj = {page: num, ranks:ranks, names: names};
+            console.log("obj");
+            console.log(obj);
 
             $scope.$emit('childEmit', obj);
           }
 
-        });
+        })
+        ;
       }
 
     }
 
-    $scope.init = function() {
-      loadNewPage(1);
-    }
-
-    $scope.pageChangeHandler = function(num) {
-      loadNewPage(num);
-    };
   }
 
 })();

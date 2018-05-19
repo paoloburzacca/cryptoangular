@@ -1,9 +1,11 @@
 <div class="jumbotron">
-  <div class="text-center" ng-controller="CryptoController" data-ng-init="getCryptoCurrencyList()">
+  <div class="text-center" ng-controller="CryptoController" data-ng-init="getCryptoCurrencyList()" ng-if="auth.isAuthenticated()">
 
     <div ng-controller="ChartController" class="chart-controller" ng-if="crypto_list">
 
-      <highcharts-column class="chart" categories="{{myCategories}}" series="{{mySeries}}"></highcharts-column>
+      <div class="highcharts_wrapper">
+        <highcharts-column class="chart" ng-class="{'active': isActive}" categories="{{myCategories}}" series="{{mySeries}}"></highcharts-column>
+      </div>
 
       <ul>
 
@@ -25,7 +27,17 @@
 
   </div>
 
-     <button ng-if="crypto_list" type="button" class="btn btn-primary" ng-csv="crypto_list" filename="crypto_currencies.csv">Export as CSV</button>
+     <button ng-if="crypto_list" type="button" class="btn btn-primary" ng-csv="crypto_list" filename="crypto_currencies.csv">Export all as CSV</button>
 
   </div>
+
+  <br />
+  <div class="text-center" ng-if="!auth.isAuthenticated()">
+    <p>You are not yet authenticated. <a ng-click="auth.login()">Log in.</a></p>
+  </div>
+
+  <div class="text-center" ng-if="auth.isAuthenticated()">
+    <a ng-click="auth.logout()">Log out.</a></p>
+  </div>
+
 </div>

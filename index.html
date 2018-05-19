@@ -16,6 +16,9 @@
         list-style-type: none;
         list-style-position: inside;
       }
+      a {
+        cursor: pointer;
+      }
       .jumbotron {
         width: 650px;
         margin: 10px auto;
@@ -23,6 +26,17 @@
       }
       .chart {
         width: 100%;
+        visibility: hidden;
+      }
+      .highcharts_wrapper {
+        background-image:url('img/loader.gif');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-color: #fff;
+      }
+      .active {
+        visibility: visible;
+        background-color: transparent;
       }
       .navbar{
         margin-bottom: 0;
@@ -40,6 +54,7 @@
         font-weight: bold;
         color: #b00;
       }
+
       .crypto_item {
         cursor: pointer;
         float:left;
@@ -90,13 +105,12 @@
       <nav class="navbar navbar-default">
         <div class="container-fluid">
           <div class="navbar-header">
-            <a class="navbar-brand" ui-sref="home">Auth0</a>
+            <a class="navbar-brand" ui-sref="home">Home</a>
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
               <li ng-if="!auth.isAuthenticated()"><a ng-click="auth.login()">Log In</a></li>
               <li ng-if="auth.isAuthenticated()"><a ng-click="auth.logout()">Log Out</a></li>
-              <li><a href="#crypto">Cryptos</a></li>
             </ul>
           </div>
         </div>

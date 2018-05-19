@@ -4,7 +4,7 @@
 
   angular
     .module('app', ['highcharts-ng',  'LocalStorageModule', 'smart-table', 'ngCsv', 'ngSanitize', 'ngDialog', 'auth0.auth0', 'angular-jwt', 'ui.router', 'angular-loading-bar', 'angularUtils.directives.dirPagination', 'angular-preload-image'])
-    .config(config);
+    .config(config)
 
   config.$inject = ['$stateProvider', '$locationProvider', 'angularAuth0Provider', '$urlRouterProvider', 'jwtOptionsProvider', 'cfpLoadingBarProvider', 'localStorageServiceProvider'];
 
@@ -19,16 +19,18 @@
     $stateProvider
       .state('home', {
         url: '/home',
-        controller: 'HomeController',
-        templateUrl: 'components/home/home.html',
+        controller: 'CryptoController',
+        templateUrl: 'components/crypto/crypto.html',
         controllerAs: 'vm'
-      })
+      });
+      /*
       .state('crypto', {
         url: '/crypto',
         controller: 'CryptoController',
         templateUrl: 'components/crypto/crypto.html',
         controllerAs: 'vm'
-      });
+      }  );*/
+
 
     // Initialization for the angular-auth0 library
     angularAuth0Provider.init({

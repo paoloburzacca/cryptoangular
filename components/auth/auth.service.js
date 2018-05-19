@@ -6,10 +6,10 @@
     .module('app')
     .service('authService', authService);
 
-  authService.$inject = ['$state', 'angularAuth0', 'authManager'];
+  authService.$inject = ['$state', 'angularAuth0', 'authManager', '$location'];
 
-  function authService($state, angularAuth0, authManager) {
-    
+  function authService($state, angularAuth0, authManager, $location) {
+
     function login(username, password) {
       angularAuth0.authorize();
     }
