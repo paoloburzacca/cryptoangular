@@ -18,5 +18,9 @@ Open the `server` directory and run
 
 ```bash
 npm install
+npm install express
+npm install cors
+npm install express-jwt
+npm install jwks-rsa
 ```
 Run the server by executing the `node server` command.
